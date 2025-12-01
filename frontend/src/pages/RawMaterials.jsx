@@ -8,7 +8,7 @@ import {
     DialogContent,
     DialogActions,
     TextField,
-    Grid2 as Grid,
+    Grid,
     IconButton,
     Chip,
     MenuItem,
@@ -332,103 +332,6 @@ export default function RawMaterials() {
                             <TextField
                                 fullWidth
                                 label="Material Code"
-                                name="code"
-                                value={formData.code}
-                                onChange={handleFormChange}
-                                required
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Material Name"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleFormChange}
-                                required
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Category"
-                                name="category"
-                                value={formData.category}
-                                onChange={handleFormChange}
-                                placeholder="e.g., Vegetables, Meat, Spices"
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <FormControl fullWidth>
-                                <InputLabel>Unit</InputLabel>
-                                <Select
-                                    name="unit"
-                                    value={formData.unit}
-                                    onChange={handleFormChange}
-                                    label="Unit"
-                                    required
-                                >
-                                    <MenuItem value="kg">Kilogram (kg)</MenuItem>
-                                    <MenuItem value="g">Gram (g)</MenuItem>
-                                    <MenuItem value="l">Liter (l)</MenuItem>
-                                    <MenuItem value="ml">Milliliter (ml)</MenuItem>
-                                    <MenuItem value="pcs">Pieces (pcs)</MenuItem>
-                                    <MenuItem value="pack">Pack</MenuItem>
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Current Price"
-                                name="currentPrice"
-                                type="number"
-                                value={formData.currentPrice}
-                                onChange={handleFormChange}
-                                required
-                                InputProps={{
-                                    startAdornment: <span style={{ marginRight: 8, color: '#86868B' }}>IDR</span>
-                                }}
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Yield Percentage"
-                                name="yieldPercentage"
-                                type="number"
-                                value={formData.yieldPercentage}
-                                onChange={handleFormChange}
-                                InputProps={{
-                                    endAdornment: <span style={{ marginLeft: 8, color: '#86868B' }}>%</span>
-                                }}
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12 }}>
-                            <FormControl fullWidth>
-                                <InputLabel>Supplier</InputLabel>
-                                <Select
-                                    name="supplierId"
-                                    value={formData.supplierId || ''}
-                                    onChange={handleFormChange}
-                                    label="Supplier"
-                                >
-                                    <MenuItem value="">None</MenuItem>
-                                    {suppliers.map((supplier) => (
-                                        <MenuItem key={supplier.id} value={supplier.id}>
-                                            {supplier.name}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Notes"
-                                name="notes"
-                                value={formData.notes}
-                                onChange={handleFormChange}
                                 multiline
                                 rows={2}
                             />

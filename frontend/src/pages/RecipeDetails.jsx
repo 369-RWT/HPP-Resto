@@ -9,7 +9,7 @@ import {
     DialogContent,
     DialogActions,
     TextField,
-    Grid2 as Grid,
+    Grid,
     IconButton,
     Table,
     TableBody,
@@ -369,71 +369,65 @@ export default function RecipeDetails() {
 
             {/* Add/Edit Dialog */}
             <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-                <DialogTitle sx={{ fontWeight: 600 }}>
-                    {editingIngredient ? 'Edit Ingredient' : 'Add Ingredient'}
+                <DialogTitle>
+                    {editingIngredient ? 'Edit Ingredient' : 'Add New Ingredient'}
                 </DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={2} sx={{ mt: 0.5 }}>
-                        <Grid size={{ xs: 12 }}>
-                            <FormControl fullWidth>
-                                <InputLabel>Ingredient</InputLabel>
-                                <Select
-                                    name="rawMaterialId"
-                                    value={formData.rawMaterialId}
+                    <Box sx={{ mt: 2 }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <FormControl fullWidth required>
+                                    <InputLabel>Raw Material</InputLabel>
+                                    <Select
+                                        name="rawMaterialId"
+                                        value={formData.rawMaterialId}
+                                        onChange={handleFormChange}
+                                        label="Raw Material"
+                                    >
+                                        {materials.map((material) => (
+                                            <MenuItem key={material.id} value={material.id}>
+                                                {material.name} ({material.code}) - {formatCurrency(material.currentPrice)}/{material.unit}
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Quantity"
+                                    name="quantity"
+                                    type="number"
+                                    value={formData.quantity}
                                     onChange={handleFormChange}
-                                    label="Ingredient"
                                     required
-                                >
-                                    {materials.map((material) => (
-                                        <MenuItem key={material.id} value={material.id}>
-                                            {material.name} - {formatCurrency(material.currentPrice)}/{material.unit}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Quantity"
-                                name="quantity"
-                                type="number"
-                                value={formData.quantity}
-                                onChange={handleFormChange}
-                                required
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <FormControl fullWidth>
-                                <InputLabel>Unit</InputLabel>
-                                <Select
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Unit"
                                     name="unit"
                                     value={formData.unit}
                                     onChange={handleFormChange}
-                                    label="Unit"
                                     required
-                                >
-                                    <MenuItem value="kg">Kilogram (kg)</MenuItem>
-                                    <MenuItem value="g">Gram (g)</MenuItem>
-                                    <MenuItem value="l">Liter (l)</MenuItem>
-                                    <MenuItem value="ml">Milliliter (ml)</MenuItem>
-                                    <MenuItem value="pcs">Pieces (pcs)</MenuItem>
-                                </Select>
-                            </FormControl>
+                                    helperText="e.g., kg, g, l, ml"
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Notes"
+                                    name="notes"
+                                    value={formData.notes}
+                                    onChange={handleFormChange}
+                                    multiline
+                                    rows={2}
+                                    placeholder="Optional preparation notes"
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Notes"
-                                name="notes"
-                                value={formData.notes}
-                                onChange={handleFormChange}
-                                multiline
-                                rows={2}
-                                placeholder="Optional preparation notes"
-                            />
-                        </Grid>
-                    </Grid>
+                    </Box>
                 </DialogContent>
                 <DialogActions sx={{ px: 3, pb: 2 }}>
                     <Button onClick={handleCloseDialog} color="inherit">
@@ -443,18 +437,19 @@ export default function RecipeDetails() {
                         {editingIngredient ? 'Save Changes' : 'Add Ingredient'}
                     </Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog >
 
             {/* Delete Confirmation Dialog */}
-            <ConfirmDialog
+            < ConfirmDialog
                 open={deleteDialogOpen}
                 onClose={handleCloseDeleteDialog}
                 onConfirm={handleDelete}
                 title="Remove Ingredient"
-                message={`Are you sure you want to remove "${deletingIngredient?.rawMaterial?.name}" from this recipe?`}
+                message={`Are you sure you want to remove "${deletingIngredient?.rawMaterial?.name}" from this recipe?`
+                }
                 confirmText="Remove"
                 danger
             />
-        </Box>
+        </Box >
     );
 }

@@ -5,7 +5,7 @@ import {
     Paper,
     TextField,
     Button,
-    Grid2 as Grid,
+    Grid,
     Alert,
 } from '@mui/material';
 import api from '../services/api';
@@ -104,13 +104,13 @@ export default function Settings() {
             <Paper sx={{ p: 4, bgcolor: 'background.paper', borderRadius: '16px', border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
                 <form onSubmit={handleSubmit}>
                     <Grid container spacing={3}>
-                        <Grid size={{ xs: 12 }}>
+                        <Grid item xs={12}>
                             <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
                                 General Information
                             </Typography>
                         </Grid>
 
-                        <Grid size={{ xs: 12 }}>
+                        <Grid item xs={12}>
                             <TextField
                                 fullWidth
                                 label="Business Name"
@@ -122,7 +122,7 @@ export default function Settings() {
                             />
                         </Grid>
 
-                        <Grid size={{ xs: 12 }}>
+                        <Grid item xs={12}>
                             <TextField
                                 fullWidth
                                 label="Address"
@@ -135,7 +135,7 @@ export default function Settings() {
                             />
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: 6 }}>
+                        <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
                                 label="Phone"
@@ -146,7 +146,7 @@ export default function Settings() {
                             />
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: 6 }}>
+                        <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
                                 label="Email"
@@ -158,13 +158,13 @@ export default function Settings() {
                             />
                         </Grid>
 
-                        <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
+                        <Grid item xs={12} sx={{ mt: 2 }}>
                             <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
                                 Financial Settings
                             </Typography>
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: 6 }}>
+                        <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
                                 label="Labor Rate per Hour"
@@ -179,7 +179,7 @@ export default function Settings() {
                             />
                         </Grid>
 
-                        <Grid size={{ xs: 12, md: 6 }}>
+                        <Grid item xs={12} md={6}>
                             <TextField
                                 fullWidth
                                 label="Currency"
@@ -191,7 +191,7 @@ export default function Settings() {
                             />
                         </Grid>
 
-                        <Grid size={{ xs: 12 }} sx={{ mt: 2 }}>
+                        <Grid item xs={12} sx={{ mt: 2 }}>
                             <Button
                                 type="submit"
                                 variant="contained"

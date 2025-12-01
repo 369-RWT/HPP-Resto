@@ -8,7 +8,7 @@ import {
     DialogContent,
     DialogActions,
     TextField,
-    Grid2 as Grid,
+    Grid,
     IconButton,
     Chip,
 } from '@mui/material';
@@ -270,71 +270,73 @@ export default function Suppliers() {
 
             {/* Add/Edit Dialog */}
             <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-                <DialogTitle sx={{ fontWeight: 600 }}>
+                <DialogTitle>
                     {editingSupplier ? 'Edit Supplier' : 'Add New Supplier'}
                 </DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={2} sx={{ mt: 0.5 }}>
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Supplier Name"
-                                name="name"
-                                value={formData.name}
-                                onChange={handleFormChange}
-                                required
-                            />
+                    <Box sx={{ mt: 2 }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Supplier Name"
+                                    name="name"
+                                    value={formData.name}
+                                    onChange={handleFormChange}
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Contact Person"
+                                    name="contactPerson"
+                                    value={formData.contactPerson}
+                                    onChange={handleFormChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Phone"
+                                    name="phone"
+                                    value={formData.phone}
+                                    onChange={handleFormChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Email"
+                                    name="email"
+                                    type="email"
+                                    value={formData.email}
+                                    onChange={handleFormChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Address"
+                                    name="address"
+                                    multiline
+                                    rows={2}
+                                    value={formData.address}
+                                    onChange={handleFormChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Payment Terms"
+                                    name="paymentTerms"
+                                    value={formData.paymentTerms}
+                                    onChange={handleFormChange}
+                                    placeholder="e.g., Net 30 days"
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Contact Person"
-                                name="contactPerson"
-                                value={formData.contactPerson}
-                                onChange={handleFormChange}
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Phone"
-                                name="phone"
-                                value={formData.phone}
-                                onChange={handleFormChange}
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Email"
-                                name="email"
-                                type="email"
-                                value={formData.email}
-                                onChange={handleFormChange}
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Address"
-                                name="address"
-                                value={formData.address}
-                                onChange={handleFormChange}
-                                multiline
-                                rows={2}
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Payment Terms"
-                                name="paymentTerms"
-                                value={formData.paymentTerms}
-                                onChange={handleFormChange}
-                                placeholder="e.g., Net 30 days"
-                            />
-                        </Grid>
-                    </Grid>
+                    </Box>
                 </DialogContent>
                 <DialogActions sx={{ px: 3, pb: 2 }}>
                     <Button onClick={handleCloseDialog} color="inherit">
@@ -344,18 +346,19 @@ export default function Suppliers() {
                         {editingSupplier ? 'Save Changes' : 'Add Supplier'}
                     </Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog >
 
             {/* Delete Confirmation Dialog */}
-            <ConfirmDialog
+            < ConfirmDialog
                 open={deleteDialogOpen}
                 onClose={handleCloseDeleteDialog}
                 onConfirm={handleDelete}
                 title="Delete Supplier"
-                message={`Are you sure you want to delete "${deletingSupplier?.name}"? This action cannot be undone.`}
+                message={`Are you sure you want to delete "${deletingSupplier?.name}"? This action cannot be undone.`
+                }
                 confirmText="Delete"
                 danger
             />
-        </Box>
+        </Box >
     );
 }

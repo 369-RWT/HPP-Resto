@@ -4,7 +4,7 @@ import {
     Typography,
     Button,
     Paper,
-    Grid2 as Grid,
+    Grid,
     FormControl,
     InputLabel,
     Select,
@@ -81,7 +81,7 @@ export default function CostCalculation() {
             {/* Selection */}
             <Paper sx={{ p: 3, mb: 3, borderRadius: '16px' }}>
                 <Grid container spacing={2} alignItems="center">
-                    <Grid size={{ xs: 12, md: 8 }}>
+                    <Grid item xs={12} md={8}>
                         <FormControl fullWidth>
                             <InputLabel>Select Menu Item</InputLabel>
                             <Select
@@ -100,7 +100,7 @@ export default function CostCalculation() {
                             </Select>
                         </FormControl>
                     </Grid>
-                    <Grid size={{ xs: 12, md: 4 }}>
+                    <Grid item xs={12} md={4}>
                         <Button
                             fullWidth
                             variant="contained"
@@ -122,7 +122,7 @@ export default function CostCalculation() {
                     {/* Header */}
                     <Paper sx={{ p: 3, mb: 3, borderRadius: '16px', bgcolor: 'primary.main', color: 'white' }}>
                         <Grid container spacing={3} alignItems="center">
-                            <Grid size={{ xs: 12, md: 8 }}>
+                            <Grid item xs={12} md={8}>
                                 <Typography variant="h5" fontWeight={700} gutterBottom>
                                     {selectedMenuItem?.name}
                                 </Typography>
@@ -130,7 +130,7 @@ export default function CostCalculation() {
                                     Standard Portion: {costData.breakdown.standardPortion} portions
                                 </Typography>
                             </Grid>
-                            <Grid size={{ xs: 12, md: 4 }} sx={{ textAlign: { xs: 'left', md: 'right' } }}>
+                            <Grid item xs={12} md={4} sx={{ textAlign: { xs: 'left', md: 'right' } }}>
                                 <Typography variant="caption" sx={{ opacity: 0.9 }}>
                                     Cost per Portion
                                 </Typography>
@@ -141,160 +141,61 @@ export default function CostCalculation() {
                         </Grid>
                     </Paper>
 
-                    {/* Cost Breakdown Cards */}
-                    <Grid container spacing={3} sx={{ mb: 3 }}>
-                        <Grid size={{ xs: 12, md: 4 }}>
-                            <Card sx={{ height: '100%', borderRadius: '16px', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
-                                <CardContent>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                                        <Box sx={{
-                                            p: 1.5,
-                                            borderRadius: '12px',
-                                            bgcolor: 'success.light',
-                                            color: 'white',
-                                            display: 'flex',
-                                            mr: 2
-                                        }}>
-                                            <MoneyIcon />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="caption" color="text.secondary">
-                                                Material Cost
-                                            </Typography>
-                                            <Typography variant="h5" fontWeight={700}>
-                                                {formatCurrency(costData.breakdown.materialCost)}
-                                            </Typography>
-                                        </Box>
-                                    </Box>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Raw materials and ingredients
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: 4 }}>
-                            <Card sx={{ height: '100%', borderRadius: '16px', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
-                                <CardContent>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                                        <Box sx={{
-                                            p: 1.5,
-                                            borderRadius: '12px',
-                                            bgcolor: 'warning.light',
-                                            color: 'white',
-                                            display: 'flex',
-                                            mr: 2
-                                        }}>
-                                            <LaborIcon />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="caption" color="text.secondary">
-                                                Labor Cost
-                                            </Typography>
-                                            <Typography variant="h5" fontWeight={700}>
-                                                {formatCurrency(costData.breakdown.laborCost)}
-                                            </Typography>
-                                        </Box>
-                                    </Box>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Production labor expenses
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-
-                        <Grid size={{ xs: 12, md: 4 }}>
-                            <Card sx={{ height: '100%', borderRadius: '16px', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
-                                <CardContent>
-                                    <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
-                                        <Box sx={{
-                                            p: 1.5,
-                                            borderRadius: '12px',
-                                            bgcolor: 'info.light',
-                                            color: 'white',
-                                            display: 'flex',
-                                            mr: 2
-                                        }}>
-                                            <OverheadIcon />
-                                        </Box>
-                                        <Box>
-                                            <Typography variant="caption" color="text.secondary">
-                                                Overhead Cost
-                                            </Typography>
-                                            <Typography variant="h5" fontWeight={700}>
-                                                {formatCurrency(costData.breakdown.overheadCost)}
-                                            </Typography>
-                                        </Box>
-                                    </Box>
-                                    <Typography variant="body2" color="text.secondary">
-                                        Utilities and indirect costs
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                        </Grid>
-                    </Grid>
-
-                    {/* Total Cost */}
+                    {/* Detailed Breakdown */}
                     <Paper sx={{ p: 3, borderRadius: '16px' }}>
                         <Grid container spacing={2}>
-                            <Grid size={{ xs: 12 }}>
-                                <Typography variant="h6" fontWeight={600} gutterBottom>
-                                    Cost Summary
-                                </Typography>
-                                <Divider sx={{ my: 2 }} />
-                            </Grid>
-                            <Grid size={{ xs: 6 }}>
+                            <Grid item xs={6}>
                                 <Typography variant="body2" color="text.secondary">
                                     Material Cost
                                 </Typography>
                             </Grid>
-                            <Grid size={{ xs: 6 }} sx={{ textAlign: 'right' }}>
+                            <Grid item xs={6} sx={{ textAlign: 'right' }}>
                                 <Typography variant="body2" fontWeight={600}>
                                     {formatCurrency(costData.breakdown.materialCost)}
                                 </Typography>
                             </Grid>
-                            <Grid size={{ xs: 6 }}>
+                            <Grid item xs={6}>
                                 <Typography variant="body2" color="text.secondary">
                                     Labor Cost
                                 </Typography>
                             </Grid>
-                            <Grid size={{ xs: 6 }} sx={{ textAlign: 'right' }}>
+                            <Grid item xs={6} sx={{ textAlign: 'right' }}>
                                 <Typography variant="body2" fontWeight={600}>
                                     {formatCurrency(costData.breakdown.laborCost)}
                                 </Typography>
                             </Grid>
-                            <Grid size={{ xs: 6 }}>
+                            <Grid item xs={6}>
                                 <Typography variant="body2" color="text.secondary">
                                     Overhead Cost
                                 </Typography>
                             </Grid>
-                            <Grid size={{ xs: 6 }} sx={{ textAlign: 'right' }}>
+                            <Grid item xs={6} sx={{ textAlign: 'right' }}>
                                 <Typography variant="body2" fontWeight={600}>
                                     {formatCurrency(costData.breakdown.overheadCost)}
                                 </Typography>
                             </Grid>
-                            <Grid size={{ xs: 12 }}>
+                            <Grid item xs={12}>
                                 <Divider sx={{ my: 1 }} />
                             </Grid>
-                            <Grid size={{ xs: 6 }}>
+                            <Grid item xs={6}>
                                 <Typography variant="h6" fontWeight={700}>
                                     Total Cost
                                 </Typography>
                             </Grid>
-                            <Grid size={{ xs: 6 }} sx={{ textAlign: 'right' }}>
+                            <Grid item xs={6} sx={{ textAlign: 'right' }}>
                                 <Typography variant="h6" fontWeight={700} color="primary.main">
                                     {formatCurrency(costData.breakdown.totalCost)}
                                 </Typography>
                             </Grid>
-                            <Grid size={{ xs: 12 }}>
+                            <Grid item xs={12}>
                                 <Divider sx={{ my: 1 }} />
                             </Grid>
-                            <Grid size={{ xs: 6 }}>
+                            <Grid item xs={6}>
                                 <Typography variant="body1" fontWeight={600}>
                                     Cost per Portion
                                 </Typography>
                             </Grid>
-                            <Grid size={{ xs: 6 }} sx={{ textAlign: 'right' }}>
+                            <Grid item xs={6} sx={{ textAlign: 'right' }}>
                                 <Typography variant="body1" fontWeight={700} color="primary.main">
                                     {formatCurrency(costData.breakdown.costPerPortion)}
                                 </Typography>

@@ -8,7 +8,7 @@ import {
     DialogContent,
     DialogActions,
     TextField,
-    Grid2 as Grid,
+    Grid,
     IconButton,
     MenuItem,
     FormControl,
@@ -336,89 +336,89 @@ export default function ProductionLog() {
 
             {/* Add/Edit Dialog */}
             <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-                <DialogTitle sx={{ fontWeight: 600 }}>
+                <DialogTitle>
                     {editingLog ? 'Edit Production Log' : 'Add Production Log'}
                 </DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={2} sx={{ mt: 0.5 }}>
-                        <Grid size={{ xs: 12 }}>
-                            <FormControl fullWidth>
-                                <InputLabel>Menu Item</InputLabel>
-                                <Select
-                                    name="menuItemId"
-                                    value={formData.menuItemId}
+                    <Box sx={{ mt: 2 }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <FormControl fullWidth required>
+                                    <InputLabel>Menu Item</InputLabel>
+                                    <Select
+                                        name="menuItemId"
+                                        value={formData.menuItemId}
+                                        onChange={handleFormChange}
+                                        label="Menu Item"
+                                    >
+                                        {menuItems.map((item) => (
+                                            <MenuItem key={item.id} value={item.id}>
+                                                {item.name} ({item.category})
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Production Date"
+                                    name="productionDate"
+                                    type="date"
+                                    value={formData.productionDate}
                                     onChange={handleFormChange}
-                                    label="Menu Item"
+                                    InputLabelProps={{ shrink: true }}
                                     required
-                                >
-                                    {menuItems.map((item) => (
-                                        <MenuItem key={item.id} value={item.id}>
-                                            {item.name} {item.category && `(${item.category})`}
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Portions Produced"
+                                    name="portionsProduced"
+                                    type="number"
+                                    value={formData.portionsProduced}
+                                    onChange={handleFormChange}
+                                    required
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Portions Sold"
+                                    name="portionsSold"
+                                    type="number"
+                                    value={formData.portionsSold}
+                                    onChange={handleFormChange}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Labor Hours"
+                                    name="laborHoursActual"
+                                    type="number"
+                                    value={formData.laborHoursActual}
+                                    onChange={handleFormChange}
+                                    InputProps={{
+                                        endAdornment: <span style={{ marginLeft: 8, color: '#86868B' }}>hours</span>
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Notes"
+                                    name="notes"
+                                    value={formData.notes}
+                                    onChange={handleFormChange}
+                                    multiline
+                                    rows={2}
+                                    placeholder="Optional notes about this production run"
+                                />
+                            </Grid>
                         </Grid>
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Production Date"
-                                name="productionDate"
-                                type="date"
-                                value={formData.productionDate}
-                                onChange={handleFormChange}
-                                required
-                                InputLabelProps={{ shrink: true }}
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Portions Produced"
-                                name="portionsProduced"
-                                type="number"
-                                value={formData.portionsProduced}
-                                onChange={handleFormChange}
-                                required
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Portions Sold"
-                                name="portionsSold"
-                                type="number"
-                                value={formData.portionsSold}
-                                onChange={handleFormChange}
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Actual Labor Hours"
-                                name="laborHoursActual"
-                                type="number"
-                                value={formData.laborHoursActual}
-                                onChange={handleFormChange}
-                                helperText="Time spent on production"
-                                InputProps={{
-                                    endAdornment: <span style={{ marginLeft: 8, color: '#86868B' }}>hours</span>
-                                }}
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Notes"
-                                name="notes"
-                                value={formData.notes}
-                                onChange={handleFormChange}
-                                multiline
-                                rows={2}
-                                placeholder="Optional notes about this production run"
-                            />
-                        </Grid>
-                    </Grid>
+                    </Box>
                 </DialogContent>
                 <DialogActions sx={{ px: 3, pb: 2 }}>
                     <Button onClick={handleCloseDialog} color="inherit">
@@ -428,18 +428,19 @@ export default function ProductionLog() {
                         {editingLog ? 'Save Changes' : 'Add Log'}
                     </Button>
                 </DialogActions>
-            </Dialog>
+            </Dialog >
 
             {/* Delete Confirmation Dialog */}
-            <ConfirmDialog
+            < ConfirmDialog
                 open={deleteDialogOpen}
                 onClose={handleCloseDeleteDialog}
                 onConfirm={handleDelete}
                 title="Delete Production Log"
-                message={`Are you sure you want to delete this production log? This action cannot be undone.`}
+                message={`Are you sure you want to delete this production log? This action cannot be undone.`
+                }
                 confirmText="Delete"
                 danger
             />
-        </Box>
+        </Box >
     );
 }

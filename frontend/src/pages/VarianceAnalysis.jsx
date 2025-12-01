@@ -4,7 +4,7 @@ import {
     Typography,
     Button,
     Paper,
-    Grid2 as Grid,
+    Grid,
     FormControl,
     InputLabel,
     Select,
@@ -239,11 +239,8 @@ export default function VarianceAnalysis() {
                                             {formatCurrency(varianceData.analysis.breakdown.material.actual)}
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Typography
-                                                color={getVarianceColor(varianceData.analysis.breakdown.material.variance)}
-                                                fontWeight={600}
-                                            >
-                                                {formatCurrency(Math.abs(varianceData.analysis.breakdown.material.variance))}
+                                            <Typography color={getVarianceColor(varianceData.analysis.breakdown.material.variance) + '.main'} fontWeight={600}>
+                                                {formatCurrency(varianceData.analysis.breakdown.material.variance)}
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="center">
@@ -270,11 +267,8 @@ export default function VarianceAnalysis() {
                                             {formatCurrency(varianceData.analysis.breakdown.labor.actual)}
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Typography
-                                                color={getVarianceColor(varianceData.analysis.breakdown.labor.variance)}
-                                                fontWeight={600}
-                                            >
-                                                {formatCurrency(Math.abs(varianceData.analysis.breakdown.labor.variance))}
+                                            <Typography color={getVarianceColor(varianceData.analysis.breakdown.labor.variance) + '.main'} fontWeight={600}>
+                                                {formatCurrency(varianceData.analysis.breakdown.labor.variance)}
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="center">
@@ -301,11 +295,8 @@ export default function VarianceAnalysis() {
                                             {formatCurrency(varianceData.analysis.breakdown.overhead.actual)}
                                         </TableCell>
                                         <TableCell align="right">
-                                            <Typography
-                                                color={getVarianceColor(varianceData.analysis.breakdown.overhead.variance)}
-                                                fontWeight={600}
-                                            >
-                                                {formatCurrency(Math.abs(varianceData.analysis.breakdown.overhead.variance))}
+                                            <Typography color={getVarianceColor(varianceData.analysis.breakdown.overhead.variance) + '.main'} fontWeight={600}>
+                                                {formatCurrency(varianceData.analysis.breakdown.overhead.variance)}
                                             </Typography>
                                         </TableCell>
                                         <TableCell align="center">

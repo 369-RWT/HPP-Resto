@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import {
     Box,
-    Grid2 as Grid,
+    Grid,
     Card,
     CardContent,
     Typography,
@@ -51,7 +51,7 @@ export default function Dashboard() {
 
             <Grid container spacing={3}>
                 {/* Statistics Cards */}
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                <Grid item xs={12} sm={6} md={3}>
                     <Card sx={{ height: '100%', borderRadius: '16px', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
                         <CardContent>
                             <Box display="flex" alignItems="center" gap={2}>
@@ -77,7 +77,7 @@ export default function Dashboard() {
                     </Card>
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                <Grid item xs={12} sm={6} md={3}>
                     <Card sx={{ height: '100%', borderRadius: '16px', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
                         <CardContent>
                             <Box display="flex" alignItems="center" gap={2}>
@@ -103,7 +103,7 @@ export default function Dashboard() {
                     </Card>
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                <Grid item xs={12} sm={6} md={3}>
                     <Card sx={{ height: '100%', borderRadius: '16px', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
                         <CardContent>
                             <Box display="flex" alignItems="center" gap={2}>
@@ -129,7 +129,7 @@ export default function Dashboard() {
                     </Card>
                 </Grid>
 
-                <Grid size={{ xs: 12, sm: 6, md: 3 }}>
+                <Grid item xs={12} sm={6} md={3}>
                     <Card sx={{ height: '100%', borderRadius: '16px', boxShadow: 'none', border: '1px solid', borderColor: 'divider' }}>
                         <CardContent>
                             <Box display="flex" alignItems="center" gap={2}>
@@ -156,7 +156,7 @@ export default function Dashboard() {
                 </Grid>
 
                 {/* Welcome Message */}
-                <Grid size={{ xs: 12 }}>
+                <Grid item xs={12}>
                     <Paper sx={{ p: 4, bgcolor: 'background.paper', borderRadius: '16px', border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
                         <Typography variant="h5" gutterBottom fontWeight={700} sx={{ letterSpacing: '-0.01em' }}>
                             Welcome to CostFlow
@@ -168,7 +168,7 @@ export default function Dashboard() {
                 </Grid>
 
                 {/* Quick Actions */}
-                <Grid size={{ xs: 12, md: 6 }}>
+                <Grid item xs={12} md={6}>
                     <Paper sx={{ p: 3, height: '100%', borderRadius: '16px', border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
                         <Typography variant="h6" gutterBottom fontWeight={600}>
                             Quick Links
@@ -192,7 +192,7 @@ export default function Dashboard() {
 
                 {/* Variance Summary */}
                 {stats?.variance && (
-                    <Grid size={{ xs: 12, md: 6 }}>
+                    <Grid item xs={12} md={6}>
                         <Paper sx={{ p: 3, height: '100%', borderRadius: '16px', border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
                             <Typography variant="h6" gutterBottom fontWeight={600}>
                                 Variance Summary

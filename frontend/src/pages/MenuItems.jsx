@@ -8,7 +8,7 @@ import {
     DialogContent,
     DialogActions,
     TextField,
-    Grid2 as Grid,
+    Grid,
     IconButton,
     Chip,
     MenuItem,
@@ -283,12 +283,13 @@ export default function MenuItems() {
                     startIcon={<AddIcon />}
                     onClick={() => handleOpenDialog()}
                     sx={{
-                        height: 48,
-                        px: 3,
-                        fontWeight: 600
+                        borderRadius: '12px',
+                        textTransform: 'none',
+                        fontWeight: 600,
+                        boxShadow: '0 4px 12px rgba(0,0,0,0.1)'
                     }}
                 >
-                    Add Item
+                    Add Menu Item
                 </Button>
             </Box>
 
@@ -296,50 +297,64 @@ export default function MenuItems() {
                 columns={columns}
                 data={menuItems}
                 loading={loading}
-                onPageChange={handlePageChange}
                 onSearch={handleSearch}
+                onPageChange={handlePageChange}
                 pagination={pagination}
-                emptyMessage="No menu items found. Add your first menu item to get started."
+                emptyMessage="No menu items found. Click 'Add Menu Item' to create one."
             />
 
-            {/* Add/Edit Dialog */}
-            <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-                <DialogTitle sx={{ fontWeight: 600 }}>
-                    {editingItem ? 'Edit Menu Item' : 'Add New Menu Item'}
+            <Dialog
+                open={dialogOpen}
+                onClose={handleCloseDialog}
+                maxWidth="sm"
+                fullWidth
+                PaperProps={{
+                    sx: { borderRadius: '16px' }
+                }}
+            >
+                <DialogTitle sx={{ pb: 1, fontWeight: 700 }}>
+                    {editingItem ? 'Edit Menu Item' : 'New Menu Item'}
                 </DialogTitle>
                 <DialogContent>
                     <Grid container spacing={2} sx={{ mt: 0.5 }}>
-                        <Grid size={{ xs: 12, sm: 6 }}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
                                 label="Item Code"
                                 name="code"
                                 value={formData.code}
                                 onChange={handleFormChange}
-                                required
+                                placeholder="e.g., BURGER-01"
+                                autoFocus
                             />
                         </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
+                        <Grid item xs={12} sm={6}>
+                            <FormControl fullWidth>
+                                <InputLabel>Category</InputLabel>
+                                <Select
+                                    name="category"
+                                    value={formData.category}
+                                    label="Category"
+                                    onChange={handleFormChange}
+                                >
+                                    <MenuItem value="Main Course">Main Course</MenuItem>
+                                    <MenuItem value="Appetizer">Appetizer</MenuItem>
+                                    <MenuItem value="Dessert">Dessert</MenuItem>
+                                    <MenuItem value="Beverage">Beverage</MenuItem>
+                                </Select>
+                            </FormControl>
+                        </Grid>
+                        <Grid item xs={12}>
                             <TextField
                                 fullWidth
                                 label="Item Name"
                                 name="name"
                                 value={formData.name}
                                 onChange={handleFormChange}
-                                required
+                                placeholder="e.g., Classic Cheeseburger"
                             />
                         </Grid>
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Category"
-                                name="category"
-                                value={formData.category}
-                                onChange={handleFormChange}
-                                placeholder="e.g., Main Course, Appetizer, Dessert"
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
+                        <Grid item xs={12} sm={6}>
                             <TextField
                                 fullWidth
                                 label="Standard Portion"
@@ -347,29 +362,26 @@ export default function MenuItems() {
                                 type="number"
                                 value={formData.standardPortion}
                                 onChange={handleFormChange}
-                                required
                             />
                         </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
+                        <Grid item xs={12} sm={6}>
                             <FormControl fullWidth>
                                 <InputLabel>Portion Unit</InputLabel>
                                 <Select
                                     name="standardPortionUnit"
                                     value={formData.standardPortionUnit}
-                                    onChange={handleFormChange}
                                     label="Portion Unit"
-                                    required
+                                    onChange={handleFormChange}
                                 >
-                                    <MenuItem value="portion">Portion</MenuItem>
-                                    <MenuItem value="plate">Plate</MenuItem>
-                                    <MenuItem value="serving">Serving</MenuItem>
-                                    <MenuItem value="pcs">Pieces</MenuItem>
-                                    <MenuItem value="kg">Kilogram</MenuItem>
-                                    <MenuItem value="l">Liter</MenuItem>
+                                    <MenuItem value="portion">portion</MenuItem>
+                                    <MenuItem value="plate">plate</MenuItem>
+                                    <MenuItem value="bowl">bowl</MenuItem>
+                                    <MenuItem value="glass">glass</MenuItem>
+                                    <MenuItem value="pcs">pcs</MenuItem>
                                 </Select>
                             </FormControl>
                         </Grid>
-                        <Grid size={{ xs: 12 }}>
+                        <Grid item xs={12}>
                             <TextField
                                 fullWidth
                                 label="Standard Labor Hours"
@@ -395,7 +407,6 @@ export default function MenuItems() {
                 </DialogActions>
             </Dialog>
 
-            {/* Delete Confirmation Dialog */}
             <ConfirmDialog
                 open={deleteDialogOpen}
                 onClose={handleCloseDeleteDialog}

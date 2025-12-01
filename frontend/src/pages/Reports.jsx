@@ -3,7 +3,7 @@ import {
     Box,
     Typography,
     Paper,
-    Grid2 as Grid,
+    Grid,
     Card,
     CardContent,
     Table,
@@ -305,145 +305,60 @@ export default function Reports() {
                         {monthlySummary && (
                             <>
                                 <Grid container spacing={3} sx={{ mb: 3 }}>
-                                    <Grid size={{ xs: 12, md: 4 }}>
-                                        <Card sx={{ height: '100%', borderRadius: '16px', bgcolor: 'success.main', color: 'white' }}>
+                                    <Grid item xs={12} sm={6} md={3}>
+                                        <Card sx={{ borderRadius: '16px', height: '100%', bgcolor: 'primary.main', color: 'white' }}>
                                             <CardContent>
-                                                <Typography variant="caption" sx={{ opacity: 0.9 }}>
-                                                    Total Revenue
-                                                </Typography>
-                                                <Typography variant="h4" fontWeight={700} sx={{ my: 1 }}>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                                    <MoneyIcon sx={{ mr: 1, opacity: 0.8 }} />
+                                                    <Typography variant="body2" sx={{ opacity: 0.8 }}>Total Revenue</Typography>
+                                                </Box>
+                                                <Typography variant="h5" fontWeight={700}>
                                                     {formatCurrency(monthlySummary.totalRevenue)}
                                                 </Typography>
-                                                <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                    {monthlySummary.productionCount} production batches
-                                                </Typography>
                                             </CardContent>
                                         </Card>
                                     </Grid>
-                                    <Grid size={{ xs: 12, md: 4 }}>
-                                        <Card sx={{ height: '100%', borderRadius: '16px', bgcolor: 'warning.main', color: 'white' }}>
+                                    <Grid item xs={12} sm={6} md={3}>
+                                        <Card sx={{ borderRadius: '16px', height: '100%' }}>
                                             <CardContent>
-                                                <Typography variant="caption" sx={{ opacity: 0.9 }}>
-                                                    Total Cost
-                                                </Typography>
-                                                <Typography variant="h4" fontWeight={700} sx={{ my: 1 }}>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                                    <TrendingUpIcon sx={{ mr: 1, color: 'text.secondary' }} />
+                                                    <Typography variant="body2" color="text.secondary">Total Cost</Typography>
+                                                </Box>
+                                                <Typography variant="h5" fontWeight={700}>
                                                     {formatCurrency(monthlySummary.totalCost)}
                                                 </Typography>
-                                                <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                    Material: {formatCurrency(monthlySummary.totalMaterialCost)}
+                                            </CardContent>
+                                        </Card>
+                                    </Grid>
+                                    <Grid item xs={12} sm={6} md={3}>
+                                        <Card sx={{ borderRadius: '16px', height: '100%' }}>
+                                            <CardContent>
+                                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                                    <AssessmentIcon sx={{ mr: 1, color: 'text.secondary' }} />
+                                                    <Typography variant="body2" color="text.secondary">Gross Profit</Typography>
+                                                </Box>
+                                                <Typography variant="h5" fontWeight={700} color={monthlySummary.grossProfit >= 0 ? 'success.main' : 'error.main'}>
+                                                    {formatCurrency(monthlySummary.grossProfit)}
                                                 </Typography>
                                             </CardContent>
                                         </Card>
                                     </Grid>
-                                    <Grid size={{ xs: 12, md: 4 }}>
-                                        <Card sx={{
-                                            height: '100%',
-                                            borderRadius: '16px',
-                                            bgcolor: monthlySummary.netProfit >= 0 ? 'primary.main' : 'error.main',
-                                            color: 'white'
-                                        }}>
+                                    <Grid item xs={12} sm={6} md={3}>
+                                        <Card sx={{ borderRadius: '16px', height: '100%' }}>
                                             <CardContent>
-                                                <Typography variant="caption" sx={{ opacity: 0.9 }}>
-                                                    Net Profit
-                                                </Typography>
-                                                <Typography variant="h4" fontWeight={700} sx={{ my: 1 }}>
-                                                    {formatCurrency(monthlySummary.netProfit)}
-                                                </Typography>
-                                                <Typography variant="body2" sx={{ opacity: 0.9 }}>
-                                                    Margin: {formatPercentage(monthlySummary.profitMargin)}
+                                                <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}>
+                                                    <DateIcon sx={{ mr: 1, color: 'text.secondary' }} />
+                                                    <Typography variant="body2" color="text.secondary">Margin</Typography>
+                                                </Box>
+                                                <Typography variant="h5" fontWeight={700} color={getMarginColor(monthlySummary.marginPercentage) + '.main'}>
+                                                    {formatPercentage(monthlySummary.marginPercentage)}
                                                 </Typography>
                                             </CardContent>
                                         </Card>
                                     </Grid>
                                 </Grid>
-
-                                {/* Detailed Breakdown */}
-                                <Paper sx={{ p: 3, borderRadius: '16px', border: '1px solid', borderColor: 'divider', boxShadow: 'none' }}>
-                                    <Typography variant="h6" fontWeight={600} gutterBottom>
-                                        Cost Breakdown
-                                    </Typography>
-                                    <Divider sx={{ my: 2 }} />
-                                    <Grid container spacing={2}>
-                                        <Grid size={{ xs: 6 }}>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Material Cost
-                                            </Typography>
-                                        </Grid>
-                                        <Grid size={{ xs: 3 }} sx={{ textAlign: 'right' }}>
-                                            <Typography variant="body2" fontWeight={600}>
-                                                {formatCurrency(monthlySummary.totalMaterialCost)}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid size={{ xs: 3 }} sx={{ textAlign: 'right' }}>
-                                            <Chip
-                                                label={formatPercentage(monthlySummary.foodCostPercentage)}
-                                                size="small"
-                                                sx={{ borderRadius: '8px', fontWeight: 600 }}
-                                            />
-                                        </Grid>
-
-                                        <Grid size={{ xs: 6 }}>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Labor Cost
-                                            </Typography>
-                                        </Grid>
-                                        <Grid size={{ xs: 3 }} sx={{ textAlign: 'right' }}>
-                                            <Typography variant="body2" fontWeight={600}>
-                                                {formatCurrency(monthlySummary.totalLaborCost)}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid size={{ xs: 3 }} sx={{ textAlign: 'right' }}>
-                                            <Chip
-                                                label={formatPercentage(monthlySummary.laborCostPercentage)}
-                                                size="small"
-                                                sx={{ borderRadius: '8px', fontWeight: 600 }}
-                                            />
-                                        </Grid>
-
-                                        <Grid size={{ xs: 6 }}>
-                                            <Typography variant="body2" color="text.secondary">
-                                                Overhead Cost
-                                            </Typography>
-                                        </Grid>
-                                        <Grid size={{ xs: 3 }} sx={{ textAlign: 'right' }}>
-                                            <Typography variant="body2" fontWeight={600}>
-                                                {formatCurrency(monthlySummary.totalOverheadCost)}
-                                            </Typography>
-                                        </Grid>
-                                        <Grid size={{ xs: 3 }} sx={{ textAlign: 'right' }}>
-                                            <Chip
-                                                label={formatPercentage(monthlySummary.overheadCostPercentage)}
-                                                size="small"
-                                                sx={{ borderRadius: '8px', fontWeight: 600 }}
-                                            />
-                                        </Grid>
-
-                                        <Grid size={{ xs: 12 }}>
-                                            <Divider sx={{ my: 1 }} />
-                                        </Grid>
-
-                                        <Grid size={{ xs: 6 }}>
-                                            <Typography variant="h6" fontWeight={700}>
-                                                Total Cost
-                                            </Typography>
-                                        </Grid>
-                                        <Grid size={{ xs: 6 }} sx={{ textAlign: 'right' }}>
-                                            <Typography variant="h6" fontWeight={700} color="primary.main">
-                                                {formatCurrency(monthlySummary.totalCost)}
-                                            </Typography>
-                                        </Grid>
-                                    </Grid>
-                                </Paper>
                             </>
-                        )}
-
-                        {!monthlySummary && !loading && (
-                            <Paper sx={{ p: 8, textAlign: 'center', borderRadius: '16px', boxShadow: 'none', border: '1px dashed', borderColor: 'divider' }}>
-                                <DateIcon sx={{ fontSize: 64, color: 'text.secondary', mb: 2, opacity: 0.5 }} />
-                                <Typography variant="h6" color="text.secondary" fontWeight={600}>
-                                    No data available for selected period
-                                </Typography>
-                            </Paper>
                         )}
                     </Box>
                 )}

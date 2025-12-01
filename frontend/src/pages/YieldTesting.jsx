@@ -8,7 +8,7 @@ import {
     DialogContent,
     DialogActions,
     TextField,
-    Grid2 as Grid,
+    Grid,
     IconButton,
     MenuItem,
     FormControl,
@@ -334,96 +334,92 @@ export default function YieldTesting() {
 
             {/* Add/Edit Dialog */}
             <Dialog open={dialogOpen} onClose={handleCloseDialog} maxWidth="sm" fullWidth>
-                <DialogTitle sx={{ fontWeight: 600 }}>
-                    {editingTest ? 'Edit Yield Test' : 'Add Yield Test'}
+                <DialogTitle>
+                    {editingTest ? 'Edit Yield Test' : 'Add New Yield Test'}
                 </DialogTitle>
                 <DialogContent>
-                    <Grid container spacing={2} sx={{ mt: 0.5 }}>
-                        <Grid size={{ xs: 12 }}>
-                            <FormControl fullWidth>
-                                <InputLabel>Raw Material</InputLabel>
-                                <Select
-                                    name="rawMaterialId"
-                                    value={formData.rawMaterialId}
+                    <Box sx={{ mt: 2 }}>
+                        <Grid container spacing={2}>
+                            <Grid item xs={12}>
+                                <FormControl fullWidth required>
+                                    <InputLabel>Raw Material</InputLabel>
+                                    <Select
+                                        name="rawMaterialId"
+                                        value={formData.rawMaterialId}
+                                        onChange={handleFormChange}
+                                        label="Raw Material"
+                                    >
+                                        {materials.map((material) => (
+                                            <MenuItem key={material.id} value={material.id}>
+                                                {material.name} ({material.code})
+                                            </MenuItem>
+                                        ))}
+                                    </Select>
+                                </FormControl>
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="Test Date"
+                                    name="testDate"
+                                    type="date"
+                                    value={formData.testDate}
                                     onChange={handleFormChange}
-                                    label="Raw Material"
+                                    InputLabelProps={{ shrink: true }}
                                     required
-                                >
-                                    {materials.map((material) => (
-                                        <MenuItem key={material.id} value={material.id}>
-                                            {material.name} ({material.unit})
-                                        </MenuItem>
-                                    ))}
-                                </Select>
-                            </FormControl>
-                        </Grid>
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Test Date"
-                                name="testDate"
-                                type="date"
-                                value={formData.testDate}
-                                onChange={handleFormChange}
-                                required
-                                InputLabelProps={{ shrink: true }}
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="As Purchased (AP) Weight"
-                                name="apWeight"
-                                type="number"
-                                value={formData.apWeight}
-                                onChange={handleFormChange}
-                                required
-                                helperText="Total weight as received"
-                            />
-                        </Grid>
-                        <Grid size={{ xs: 12, sm: 6 }}>
-                            <TextField
-                                fullWidth
-                                label="Edible Portion (EP) Weight"
-                                name="epWeight"
-                                type="number"
-                                value={formData.epWeight}
-                                onChange={handleFormChange}
-                                required
-                                helperText="Usable weight after prep"
-                            />
-                        </Grid>
-
-                        {/* Calculated Yield Display */}
-                        {formData.apWeight > 0 && (
-                            <Grid size={{ xs: 12 }}>
-                                <Paper sx={{ p: 2, bgcolor: 'primary.main', color: 'white', borderRadius: '12px' }}>
-                                    <Typography variant="caption" sx={{ opacity: 0.9 }}>
-                                        Calculated Yield Percentage
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="AP Weight"
+                                    name="apWeight"
+                                    type="number"
+                                    value={formData.apWeight}
+                                    onChange={handleFormChange}
+                                    required
+                                    InputProps={{
+                                        endAdornment: <span style={{ marginLeft: 8, color: '#86868B' }}>kg</span>
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <TextField
+                                    fullWidth
+                                    label="EP Weight"
+                                    name="epWeight"
+                                    type="number"
+                                    value={formData.epWeight}
+                                    onChange={handleFormChange}
+                                    required
+                                    InputProps={{
+                                        endAdornment: <span style={{ marginLeft: 8, color: '#86868B' }}>kg</span>
+                                    }}
+                                />
+                            </Grid>
+                            <Grid item xs={12} sm={6}>
+                                <Paper sx={{ p: 2, bgcolor: 'background.default', textAlign: 'center' }}>
+                                    <Typography variant="caption" color="text.secondary">
+                                        Calculated Yield
                                     </Typography>
-                                    <Typography variant="h4" fontWeight={700}>
+                                    <Typography variant="h6" fontWeight={700} color={calculatedYield >= 90 ? 'success.main' : calculatedYield >= 75 ? 'warning.main' : 'error.main'}>
                                         {calculatedYield}%
-                                    </Typography>
-                                    <Typography variant="caption" sx={{ opacity: 0.9 }}>
-                                        Waste: {(100 - calculatedYield).toFixed(2)}%
                                     </Typography>
                                 </Paper>
                             </Grid>
-                        )}
-
-                        <Grid size={{ xs: 12 }}>
-                            <TextField
-                                fullWidth
-                                label="Notes"
-                                name="notes"
-                                value={formData.notes}
-                                onChange={handleFormChange}
-                                multiline
-                                rows={2}
-                                placeholder="Optional notes about this test"
-                            />
+                            <Grid item xs={12}>
+                                <TextField
+                                    fullWidth
+                                    label="Notes"
+                                    name="notes"
+                                    multiline
+                                    rows={3}
+                                    value={formData.notes}
+                                    onChange={handleFormChange}
+                                />
+                            </Grid>
                         </Grid>
-                    </Grid>
+                    </Box>
                 </DialogContent>
                 <DialogActions sx={{ px: 3, pb: 2 }}>
                     <Button onClick={handleCloseDialog} color="inherit">
@@ -436,15 +432,16 @@ export default function YieldTesting() {
             </Dialog>
 
             {/* Delete Confirmation Dialog */}
-            <ConfirmDialog
+            < ConfirmDialog
                 open={deleteDialogOpen}
                 onClose={handleCloseDeleteDialog}
                 onConfirm={handleDelete}
                 title="Delete Yield Test"
-                message={`Are you sure you want to delete this yield test? This action cannot be undone.`}
+                message={`Are you sure you want to delete this yield test? This action cannot be undone.`
+                }
                 confirmText="Delete"
                 danger
             />
-        </Box>
+        </Box >
     );
 }
