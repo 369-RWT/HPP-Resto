@@ -1,0 +1,225 @@
+// This is your Prisma schema file for SQLite
+// Learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// Business Settings (Single Record)
+model BusinessSettings {
+  id                Int      @id @default(autoincrement())
+  businessName      String
+  address           String?
+  phone             String?
+  email             String?
+  currency          String   @default("IDR")
+  fiscalYearStart   Int      @default(1)
+  laborRatePerHour  Float    @default(0)
+  isInitialized     Boolean  @default(false)
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+// Suppliers
+model Supplier {
+  id            Int           @id @default(autoincrement())
+  name          String
+  contactPerson String?
+  phone         String?
+  email         String?
+  address       String?
+  paymentTerms  String?
+  isActive      Boolean       @default(true)
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+  rawMaterials  RawMaterial[]
+}
+
+// Raw Materials/Ingredients
+model RawMaterial {
+  id                Int                   @id @default(autoincrement())
+  code              String                @unique
+  name              String
+  unit              String
+  category          String?
+  currentPrice      Float
+  yieldPercentage   Float                 @default(100)
+  supplierId        Int?
+  notes             String?
+  isActive          Boolean               @default(true)
+  createdAt         DateTime              @default(now())
+  updatedAt         DateTime              @updatedAt
+  supplier          Supplier?             @relation(fields: [supplierId], references: [id])
+  recipeDetails     RecipeDetail[]
+  yieldTests        YieldTest[]
+  productionDetails ProductionLogDetail[]
+
+  @@index([code])
+  @@index([supplierId])
+}
+
+// Menu Items
+model MenuItem {
+  id                  Int              @id @default(autoincrement())
+  code                String           @unique
+  name                String
+  category            String?
+  standardPortion     Int
+  standardPortionUnit String
+  standardLaborHours  Float            @default(0)
+  isActive            Boolean          @default(true)
+  createdAt           DateTime         @default(now())
+  updatedAt           DateTime         @updatedAt
+  recipeDetails       RecipeDetail[]
+  productionLogs      ProductionLog[]
+  costStandards       CostStandard[]
+  varianceRecords     VarianceRecord[]
+  menuPricing         MenuPricing[]
+
+  @@index([code])
+}
+
+// Recipe Details (Ingredients per Menu Item)
+model RecipeDetail {
+  id            Int         @id @default(autoincrement())
+  menuItemId    Int
+  rawMaterialId Int
+  quantity      Float
+  unit          String
+  sequence      Int?
+  notes         String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  menuItem      MenuItem    @relation(fields: [menuItemId], references: [id], onDelete: Cascade)
+  rawMaterial   RawMaterial @relation(fields: [rawMaterialId], references: [id])
+
+  @@index([menuItemId])
+  @@index([rawMaterialId])
+}
+
+// Yield Testing Records
+model YieldTest {
+  id              Int         @id @default(autoincrement())
+  rawMaterialId   Int
+  testDate        DateTime
+  apWeight        Float // As Purchased Weight
+  epWeight        Float // Edible Portion Weight
+  yieldPercentage Float
+  notes           String?
+  createdAt       DateTime    @default(now())
+  rawMaterial     RawMaterial @relation(fields: [rawMaterialId], references: [id])
+
+  @@index([rawMaterialId])
+  @@index([testDate])
+}
+
+// Daily Production Log
+model ProductionLog {
+  id                 Int                   @id @default(autoincrement())
+  menuItemId         Int
+  productionDate     DateTime
+  portionsProduced   Int
+  portionsSold       Int?
+  laborHoursActual   Float?
+  notes              String?
+  createdAt          DateTime              @default(now())
+  updatedAt          DateTime              @updatedAt
+  menuItem           MenuItem              @relation(fields: [menuItemId], references: [id])
+  details            ProductionLogDetail[]
+  varianceRecords    VarianceRecord[]
+
+  @@index([menuItemId])
+  @@index([productionDate])
+}
+
+// Production Log Details (Material Usage)
+model ProductionLogDetail {
+  id              Int           @id @default(autoincrement())
+  productionLogId Int
+  rawMaterialId   Int
+  quantityUsed    Float
+  unit            String
+  unitPrice       Float
+  subtotal        Float
+  productionLog   ProductionLog @relation(fields: [productionLogId], references: [id], onDelete: Cascade)
+  rawMaterial     RawMaterial   @relation(fields: [rawMaterialId], references: [id])
+
+  @@index([productionLogId])
+  @@index([rawMaterialId])
+}
+
+// Cost Standards (Calculated)
+model CostStandard {
+  id              Int      @id @default(autoincrement())
+  menuItemId      Int
+  effectiveDate   DateTime
+  materialCost    Float
+  laborCost       Float
+  overheadCost    Float
+  totalCost       Float
+  costPerPortion  Float
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+  menuItem        MenuItem @relation(fields: [menuItemId], references: [id])
+
+  @@index([menuItemId])
+  @@index([effectiveDate])
+}
+
+// Overhead Configuration
+model OverheadConfig {
+  id               Int      @id @default(autoincrement())
+  allocationMethod String // 'percentage_labor', 'percentage_material', 'per_unit'
+  allocationRate   Float
+  effectiveDate    DateTime
+  notes            String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  @@index([effectiveDate])
+}
+
+// Variance Records
+model VarianceRecord {
+  id                 Int            @id @default(autoincrement())
+  menuItemId         Int
+  productionLogId    Int?
+  varianceDate       DateTime
+  standardCost       Float
+  actualCost         Float
+  varianceAmount     Float
+  variancePercentage Float
+  varianceType       String // 'material_price', 'material_usage', 'labor_efficiency', 'overhead'
+  notes              String?
+  createdAt          DateTime       @default(now())
+  menuItem           MenuItem       @relation(fields: [menuItemId], references: [id])
+  productionLog      ProductionLog? @relation(fields: [productionLogId], references: [id])
+
+  @@index([menuItemId])
+  @@index([productionLogId])
+  @@index([varianceDate])
+}
+
+// Menu Pricing
+model MenuPricing {
+  id                   Int      @id @default(autoincrement())
+  menuItemId           Int
+  effectiveDate        DateTime
+  sellingPrice         Float
+  costPerPortion       Float?
+  marginAmount         Float?
+  marginPercentage     Float?
+  foodCostPercentage   Float?
+  notes                String?
+  createdAt            DateTime @default(now())
+  updatedAt            DateTime @updatedAt
+  menuItem             MenuItem @relation(fields: [menuItemId], references: [id])
+
+  @@index([menuItemId])
+  @@index([effectiveDate])
+}
